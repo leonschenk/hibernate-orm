@@ -53,6 +53,8 @@ public class DeleteNotFoundIgnoreManyToOneTest {
     public void testDeleteElement(SessionFactoryScope scope) {
         scope.inTransaction((session) -> {
             final Currency currency = session.byId(Currency.class).load(2);
+            // TODO: this might be done implicitly by Hibernate?
+            currency.getCoins().forEach(session::detach);
             session.remove(currency);
         });
 
